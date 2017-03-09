@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <logger name="Spring boot - Multi data source--info" level="INFO"/>
+    <logger name="Spring boot - Multi data source--trace" level="TRACE" />
+ 
+    <springProfile name="dev">
+        <logger name="Spring boot - Multi data source--debug" level="DEBUG" />
+    </springProfile>
+ 
+    <springProfile name="staging">
+        <logger name="Spring boot - Multi data source--stageinfo" level="INFO" />
+    </springProfile>
+</configuration>

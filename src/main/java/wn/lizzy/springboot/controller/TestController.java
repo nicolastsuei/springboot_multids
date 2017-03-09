@@ -1,9 +1,11 @@
 package wn.lizzy.springboot.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
- 
+
 import javax.sql.DataSource;
- 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class TestController {
-   
+	private Logger logger =  LoggerFactory.getLogger(this.getClass());
     //没有指定为主数据源.
     @Autowired
     private DataSource dataSource;
@@ -37,7 +39,7 @@ public class TestController {
    
     @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-       System.out.println("TestController.setJdbcTemplate()");
+    	logger.info("TestController.setJdbcTemplate()");
        jdbcTemplate.setDataSource(dataSource1);//设置dataSource
        this.jdbcTemplate = jdbcTemplate;
     }
@@ -45,21 +47,21 @@ public class TestController {
     @RequestMapping("/get")
     public String get(){
        //观察控制台的打印信息.
-       System.out.println(dataSource);
+    	logger.debug(dataSource.toString());
        return"ok";
     }
    
     @RequestMapping("/get1")
     public String get1(){
        //观察控制台的打印信息.
-       System.out.println(dataSource1);
+    	logger.debug(dataSource1.toString());
        return"ok.1";
     }
    
     @RequestMapping("/get2")
     public String get2(){
        //观察控制台的打印信息.
-       System.out.println(dataSource2);
+    	logger.debug(dataSource2.toString());
        return"ok.2";
     }
    
@@ -67,8 +69,8 @@ public class TestController {
     public String get3(){
        //观察控制台的打印信息.
        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource1);
-       System.out.println(jdbcTemplate.getDataSource());
-       System.out.println(jdbcTemplate);
+       logger.debug(jdbcTemplate.getDataSource().toString());
+       logger.debug(jdbcTemplate.toString());
         
        /*
          * Demo1只在test1中存在，test并没有此数据库;
@@ -79,7 +81,7 @@ public class TestController {
  
             @Override
             public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-                System.out.println(rs.getLong("id")+"---"+rs.getString("name"));
+            	logger.info(rs.getLong("id")+"---"+rs.getString("name"));
                 return"";
             }
  
